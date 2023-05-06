@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.rank_assessment">
+    package="com.example.my_card">
    <application
-        android:label="rank_assessment"
+        android:label="my_card"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

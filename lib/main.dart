@@ -1,46 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'New Card',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
+        fontFamily: 'Roboto',
+        textTheme: const TextTheme(
+          titleLarge: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+          bodyMedium: TextStyle(
+            fontSize: 16,
+            color: Colors.black54,
+          ),
+        ),
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blueGrey)
+            .copyWith(secondary: Colors.deepOrangeAccent),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Add New Card'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
   final String title;
 
   @override
@@ -48,68 +41,241 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+  List<CardDetails> cards = [];
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _cardNumberController = TextEditingController();
+  final TextEditingController _fullNameController = TextEditingController();
+  final TextEditingController _cvvController = TextEditingController();
+  final TextEditingController _expirationController = TextEditingController();
+  final TextEditingController _countryController = TextEditingController();
+  final TextEditingController _cardTypeController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Text(
+          widget.title,
+          style: const TextStyle(
+            color: Colors.blueGrey,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
       ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 17),
+          child: Column(
+            children: [
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    TextFormField(
+                      controller: _cardNumberController,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        LengthLimitingTextInputFormatter(16),
+                      ],
+                      decoration: const InputDecoration(
+                        hintText: "Card Number",
+                        prefixIcon: Icon(Icons.credit_card),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter Card Number';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: TextFormField(
+                        controller: _fullNameController,
+                        decoration: const InputDecoration(
+                            hintText: "Full Name",
+                            prefixIcon: Icon(Icons.person)),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter full name';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    TextFormField(
+                      controller: _cardTypeController,
+                      decoration: const InputDecoration(
+                        hintText: "Card Type",
+                        prefixIcon: Icon(Icons.credit_card),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter Card Type';
+                        }
+                        return null;
+                      },
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            controller: _cvvController,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                              LengthLimitingTextInputFormatter(3),
+                            ],
+                            decoration: const InputDecoration(
+                              hintText: "CVV",
+                              prefixIcon: Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 10)),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter CVV';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 8.0,
+                        ),
+                        Expanded(
+                          child: TextFormField(
+                            controller: _expirationController,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                              LengthLimitingTextInputFormatter(4),
+                            ],
+                            decoration: const InputDecoration(
+                              hintText: "MM/YY",
+                              prefixIcon: Icon(Icons.calendar_month),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter Date';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextFormField(
+                      controller: _countryController,
+                      decoration: const InputDecoration(
+                        hintText: "Country",
+                        prefixIcon: Icon(Icons.flag),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter Country';
+                        }
+                        return null;
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 50,
+              ),
+              OutlinedButton.icon(
+                icon: const Icon(Icons.qr_code_scanner_outlined),
+                label: const Text("Scan"),
+                onPressed: () {},
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      final card = CardDetails(
+                        cardNumber: _cardNumberController.text,
+                        fullName: _fullNameController.text,
+                        cvv: _cvvController.text,
+                        expiryDate: _expirationController.text,
+                        issuingCountry: _countryController.text,
+                        cardType: _cardTypeController.text,
+                      );
+                      setState(() {
+                        cards.add(card);
+                        _cardNumberController.clear();
+                        _fullNameController.clear();
+                        _cvvController.clear();
+                        _expirationController.clear();
+                        _countryController.clear();
+                      });
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                            content: Text('Please fill in all fields')),
+                      );
+                    }
+                  },
+                  child: const Text("Add Card"),
+                ),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: cards.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final card = cards[index];
+                    return Card(
+                      child: ListTile(
+                        leading: const Icon(Icons.credit_card),
+                        title: Text(card.cardNumber),
+                        subtitle:
+                            Text('${card.fullName} (${card.issuingCountry})'),
+                        trailing: ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              cards.removeAt(index);
+                            });
+                          },
+                          child: const Text('Delete'),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+}
+
+class CardDetails {
+  final String cardNumber;
+  final String fullName;
+  final String cvv;
+  final String expiryDate;
+  final String issuingCountry;
+  final String cardType;
+
+  CardDetails({
+    required this.cardNumber,
+    required this.fullName,
+    required this.cvv,
+    required this.expiryDate,
+    required this.issuingCountry,
+    required this.cardType,
+  });
 }

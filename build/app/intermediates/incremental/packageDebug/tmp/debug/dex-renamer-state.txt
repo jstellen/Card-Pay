@@ -1,0 +1,4 @@
+#Sat May 06 01:49:27 UTC 2023
+base.0=/home/jean-jaque/Personal/my_card/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
+path.0=classes.dex
+renamed.0=classes.dex
