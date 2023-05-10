@@ -1,0 +1,17 @@
+/home/jean-jaque/Personal/Rank-Assessement/build/linux/x64/debug/bundle/my_card
+/home/jean-jaque/Personal/Rank-Assessement/build/linux/x64/debug/bundle/data/icudtl.dat
+/home/jean-jaque/Personal/Rank-Assessement/build/linux/x64/debug/bundle/lib/libflutter_linux_gtk.so
+/home/jean-jaque/Personal/Rank-Assessement/build/linux/x64/debug/bundle/data/flutter_assets/assets/images/discover.png
+/home/jean-jaque/Personal/Rank-Assessement/build/linux/x64/debug/bundle/data/flutter_assets/assets/images/visa.png
+/home/jean-jaque/Personal/Rank-Assessement/build/linux/x64/debug/bundle/data/flutter_assets/assets/images/card_cvv.png
+/home/jean-jaque/Personal/Rank-Assessement/build/linux/x64/debug/bundle/data/flutter_assets/assets/images/american_express.png
+/home/jean-jaque/Personal/Rank-Assessement/build/linux/x64/debug/bundle/data/flutter_assets/assets/images/mastercard.png
+/home/jean-jaque/Personal/Rank-Assessement/build/linux/x64/debug/bundle/data/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf
+/home/jean-jaque/Personal/Rank-Assessement/build/linux/x64/debug/bundle/data/flutter_assets/FontManifest.json
+/home/jean-jaque/Personal/Rank-Assessement/build/linux/x64/debug/bundle/data/flutter_assets/AssetManifest.json
+/home/jean-jaque/Personal/Rank-Assessement/build/linux/x64/debug/bundle/data/flutter_assets/NOTICES.Z
+/home/jean-jaque/Personal/Rank-Assessement/build/linux/x64/debug/bundle/data/flutter_assets/version.json
+/home/jean-jaque/Personal/Rank-Assessement/build/linux/x64/debug/bundle/data/flutter_assets/NOTICES
+/home/jean-jaque/Personal/Rank-Assessement/build/linux/x64/debug/bundle/data/flutter_assets/fonts/MaterialIcons-Regular.otf
+/home/jean-jaque/Personal/Rank-Assessement/build/linux/x64/debug/bundle/data/flutter_assets/shaders/ink_sparkle.frag
+/home/jean-jaque/Personal/Rank-Assessement/build/linux/x64/debug/bundle/data/flutter_assets/kernel_blob.bin
