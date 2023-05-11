@@ -16,7 +16,31 @@ class CardDetails {
     required this.issuingCountry,
 
   });
+  
 }
+
+class CardMonthInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue, TextEditingValue newValue) {
+    String newText = newValue.text;
+    if (newText.length == 4 && !newText.contains('/')) {
+      newText = '${newText.substring(0, 2)}/${newText.substring(2)}';
+    }
+    if (newText.length == 2 && !newText.contains('/')) {
+      newText = '${newText.substring(0, 2)}/';
+    }
+    if (newText.length > 5) {
+      newText = newText.substring(0, 5);
+    }
+    return TextEditingValue(
+      text: newText,
+      selection: TextSelection.collapsed(offset: newText.length),
+    );
+  }
+}
+
+
 
 class CardInputFormatter extends TextInputFormatter {
   @override
@@ -52,7 +76,7 @@ class CardInputFormatter extends TextInputFormatter {
     // Check for American Express or Discover
     if (cardNumber.length >= 2 && (cardNumber.startsWith('34') || cardNumber.startsWith('37'))) {
       return 'American Express';
-    } else if (cardNumber.length >= 3 && cardNumber.startsWith('6011')) {
+    } else if (cardNumber.startsWith('6')) {
       return 'Discover';
     }
   }
@@ -63,29 +87,29 @@ Widget getCardTypeIcon(String cardType) {
     case 'Visa':
       return const Image(
         image: AssetImage('/home/jean-jaque/Personal/Rank-Assessement/assets/images/visa.png'),
-        width: 10,
-        height: 10,
+        width: 20,
+        height: 20,
       );
     case 'Mastercard':
       return const Image(
         image: AssetImage('/home/jean-jaque/Personal/Rank-Assessement/assets/images/mastercard.png'),
-        width: 10,
-        height: 10,      );
+        width: 20,
+        height: 20,      );
     case 'American Express':
       return const Image(
         image: AssetImage('/home/jean-jaque/Personal/Rank-Assessement/assets/images/american_express.png'),
-        width: 10,
-        height: 10,      );
+        width: 20,
+        height: 20,      );
     case 'Discover':
       return const Image(
         image : AssetImage('/home/jean-jaque/Personal/Rank-Assessement/assets/images/discover.png'),
-        width: 10,
-        height: 10,      );
+        width: 20,
+        height: 20,      );
     default:
       return const Image(
         image: AssetImage('/home/jean-jaque/Personal/Rank-Assessement/assets/images/visa.png'),
-        width: 10,
-        height: 10,      );
+        width: 20,
+        height: 20,      );
   }
 }
 

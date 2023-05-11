@@ -16,9 +16,9 @@ class _MyHomePageState extends State<MyHomePage> {
   ImagePicker picker = ImagePicker();
   File? imageFile;
 
-  final String _cardType = '';
+  String _cardType = '';
   List<CardDetails> cards = [];
-
+  List<String> bannedCountries = ['Iran', 'North Korea', 'Sudan', 'Syria'];
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _cardNumberController = TextEditingController();
   final TextEditingController _fullNameController = TextEditingController();
@@ -34,7 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
     _countryController.clear();
   }
 
-    @override
+  @override
   void initState() {
     super.initState();
   }
@@ -61,9 +61,9 @@ class _MyHomePageState extends State<MyHomePage> {
     final ThemeData theme = Theme.of(context);
 
     return Scaffold(
-      appBar:  AppBar(
+      appBar: AppBar(
         title: Text(widget.title),
-        backgroundColor: theme.primaryColor, 
+        backgroundColor: theme.primaryColor,
         centerTitle: true,
       ),
       body: Center(
@@ -84,13 +84,23 @@ class _MyHomePageState extends State<MyHomePage> {
                         CardInputFormatter(),
                       ],
                       decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                          borderSide: BorderSide(
+                            width: 1,
+                            color: Colors.grey.shade400,
+                          ),
+                        ),
                         hintText: "Card Number",
                         prefixIcon: const Icon(Icons.credit_card),
-                        suffixIcon: getCardTypeIcon(_cardType),
+                        suffixIcon: Padding(
+                          padding: const EdgeInsets.only(right: 8.0),
+                          child: getCardTypeIcon(_cardType),
+                        ),
                       ),
                       onChanged: (value) {
                         setState(() {
-                          getCardType(value);
+                          _cardType = getCardType(value);
                         });
                       },
                       validator: (value) {
@@ -101,15 +111,22 @@ class _MyHomePageState extends State<MyHomePage> {
                       },
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: TextFormField(
                         controller: _fullNameController,
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              borderSide: BorderSide(
+                                width: 1,
+                                color: Colors.grey.shade400,
+                              ),
+                            ),
                             hintText: "Full Name",
-                            prefixIcon: Icon(Icons.person)),
+                            prefixIcon: const Icon(Icons.person)),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter full name';
@@ -126,11 +143,18 @@ class _MyHomePageState extends State<MyHomePage> {
                             keyboardType: TextInputType.number,
                             inputFormatters: [
                               FilteringTextInputFormatter.digitsOnly,
-                              LengthLimitingTextInputFormatter(3),
+                              LengthLimitingTextInputFormatter(4),
                             ],
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: BorderSide(
+                                  width: 1,
+                                  color: Colors.grey.shade400,
+                                ),
+                              ),
                               hintText: "CVV",
-                              prefixIcon: Padding(
+                              prefixIcon: const Padding(
                                   padding: EdgeInsets.symmetric(vertical: 10)),
                             ),
                             validator: (value) {
@@ -151,10 +175,18 @@ class _MyHomePageState extends State<MyHomePage> {
                             inputFormatters: [
                               FilteringTextInputFormatter.digitsOnly,
                               LengthLimitingTextInputFormatter(4),
+                              CardMonthInputFormatter()
                             ],
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: BorderSide(
+                                  width: 1,
+                                  color: Colors.grey.shade400,
+                                ),
+                              ),
                               hintText: "MM/YY",
-                              prefixIcon: Icon(Icons.calendar_month),
+                              prefixIcon: const Icon(Icons.calendar_month),
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -171,11 +203,23 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     TextFormField(
                       controller: _countryController,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                          borderSide: BorderSide(
+                            width: 1,
+                            color: Colors.grey.shade400,
+                          ),
+                        ),
                         hintText: "Country",
-                        prefixIcon: Icon(Icons.flag),
+                        prefixIcon: const Icon(Icons.flag),
                       ),
                       validator: (value) {
+
+                        String? lowercaseValue = value?.toLowerCase();
+                        if (bannedCountries.map((country) => country.toLowerCase()).contains(lowercaseValue)) {
+                            return 'Sorry, $value is a banned country.';
+                        }
                         if (value == null || value.isEmpty) {
                           return 'Please enter Country';
                         }
@@ -240,7 +284,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     return Card(
                       child: ListTile(
                         leading: const Icon(Icons.credit_card),
-                        title: Text(card.cardNumber),
+                        title: Text('${card.cardNumber} ($_cardType)'),
                         subtitle:
                             Text('${card.fullName} (${card.issuingCountry})'),
                         trailing: ElevatedButton(
