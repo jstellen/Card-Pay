@@ -12,9 +12,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'New Card',
-      theme: ThemeData.light(), // set the light theme as the default
-      darkTheme: ThemeData.dark(), // define the dark theme
-      themeMode: ThemeMode.system, // use the device theme setting
+      theme: ThemeData.light(), 
+      darkTheme: ThemeData.dark(), 
+      themeMode: ThemeMode.system, 
       home: const MyHomePage(title: 'Add New Card'),
     );
   }
