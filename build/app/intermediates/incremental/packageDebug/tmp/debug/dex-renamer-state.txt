@@ -1,4 +1,4 @@
-#Mon May 15 15:55:07 UTC 2023
+#Tue May 16 07:46:40 UTC 2023
 base.0=/home/jean-jaque/Personal/Rank-Assessement/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
 path.0=classes.dex
 renamed.0=classes.dex
